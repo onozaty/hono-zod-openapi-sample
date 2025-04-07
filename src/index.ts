@@ -1,6 +1,6 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { api } from "./api/index.js";
+import { api } from "./api";
 
 const app = new Hono();
 

@@ -1,9 +1,9 @@
 import { swaggerUI } from "@hono/swagger-ui";
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { customerApi } from "./customer.js";
+import { customerRoute } from "./routes/customer";
 
-export const api = new OpenAPIHono();
-api.route("/customers", customerApi);
+const api = new OpenAPIHono();
+api.route("/customers", customerRoute);
 api.doc("/doc", {
   openapi: "3.0.0",
   info: {
@@ -17,3 +17,5 @@ api.doc("/doc", {
   ],
 });
 api.get("/swagger-ui", swaggerUI({ url: "./doc" }));
+
+export { api };
