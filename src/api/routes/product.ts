@@ -45,7 +45,7 @@ const productRoute = createApi();
 productRoute.openapi(
   createRoute({
     method: "post",
-    path: "",
+    path: "products",
     request: {
       body: {
         content: {
@@ -85,7 +85,7 @@ productRoute.openapi(
 productRoute.openapi(
   createRoute({
     method: "get",
-    path: "",
+    path: "products",
     request: {},
     responses: {
       200: {

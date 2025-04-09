@@ -4,10 +4,10 @@ import type { ErrorResponse } from "./error-schema";
 import { customerRoute } from "./routes/customer";
 import { productRoute } from "./routes/product";
 
-const api = createApi();
-
-api.route("/customers", customerRoute);
-api.route("/products", productRoute);
+const api = createApi()
+  // 各ルートをマウント
+  .route("/", customerRoute)
+  .route("/", productRoute);
 
 api.onError((error, c) => {
   const res = handleError(error);

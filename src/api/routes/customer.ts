@@ -46,7 +46,7 @@ const customerRoute = createApi();
 customerRoute.openapi(
   createRoute({
     method: "post",
-    path: "",
+    path: "customers",
     request: {
       body: {
         content: {
@@ -86,7 +86,7 @@ customerRoute.openapi(
 customerRoute.openapi(
   createRoute({
     method: "get",
-    path: "",
+    path: "customers",
     request: {},
     responses: {
       200: {
@@ -109,7 +109,7 @@ customerRoute.openapi(
 customerRoute.openapi(
   createRoute({
     method: "get",
-    path: "/{id}",
+    path: "customers/{id}",
     request: {
       params: CustomerIdParamSchema,
     },
