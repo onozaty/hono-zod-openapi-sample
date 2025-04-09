@@ -7,6 +7,7 @@ import { productRoute } from "./routes/product";
 const api = createApi();
 
 api.route("/customers", customerRoute);
+api.route("/products", productRoute);
 
 api.onError((error, c) => {
   const res = handleError(error);
