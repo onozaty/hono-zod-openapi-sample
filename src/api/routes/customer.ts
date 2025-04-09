@@ -1,6 +1,7 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { prisma } from "../../utils/db";
 import { createApi } from "../base";
+import { errorResponses } from "../error-schema";
 
 // -----------------------------------
 // スキーマ定義
@@ -17,22 +18,18 @@ const CustomerSchema = z
       example: "taro@example.com",
     }),
   })
-  .openapi("CustomerSchema");
+  .openapi("Customer");
 
-const CustomerListSchema = z
-  .array(CustomerSchema)
-  .openapi("CustomerListSchema");
+const CustomerListSchema = z.array(CustomerSchema).openapi("Customers");
 
-const CreateCustomerSchema = z
-  .object({
-    name: z.string().openapi({
-      example: "Yamada Taro",
-    }),
-    email: z.string().email().openapi({
-      example: "taro@example.com",
-    }),
-  })
-  .openapi("CreateCustomerSchema");
+const CreateCustomerSchema = z.object({
+  name: z.string().openapi({
+    example: "Yamada Taro",
+  }),
+  email: z.string().email().openapi({
+    example: "taro@example.com",
+  }),
+});
 
 // -----------------------------------
 // ルート定義
@@ -62,6 +59,7 @@ customerRoute.openapi(
         },
         description: "OK",
       },
+      ...errorResponses,
     },
   }),
   async (c) => {

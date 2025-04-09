@@ -20,23 +20,21 @@ const ProductSchema = z
       example: 100000,
     }),
   })
-  .openapi("ProductSchema");
+  .openapi("Product");
 
-const ProductListSchema = z.array(ProductSchema).openapi("ProductListSchema");
+const ProductListSchema = z.array(ProductSchema).openapi("Products");
 
-const CreateProductSchema = z
-  .object({
-    name: z.string().openapi({
-      example: "Car",
-    }),
-    description: z.string().nullable().openapi({
-      example: "xxxxxxx",
-    }),
-    price: z.number().openapi({
-      example: 100000,
-    }),
-  })
-  .openapi("CreateProductSchema");
+const CreateProductSchema = z.object({
+  name: z.string().openapi({
+    example: "Car",
+  }),
+  description: z.string().nullable().openapi({
+    example: "xxxxxxx",
+  }),
+  price: z.number().openapi({
+    example: 100000,
+  }),
+});
 
 // -----------------------------------
 // ルート定義
