@@ -31,6 +31,12 @@ const CreateCustomerSchema = z.object({
   }),
 });
 
+const CustomerIdParamSchema = z.object({
+  id: z.coerce.number().openapi({
+    example: 123,
+  }),
+});
+
 // -----------------------------------
 // ルート定義
 // -----------------------------------
@@ -96,6 +102,41 @@ customerRoute.openapi(
   async (c) => {
     const customers = await prisma.customer.findMany();
     return c.json(customers, 200);
+  }
+);
+
+// Customer情報
+customerRoute.openapi(
+  createRoute({
+    method: "get",
+    path: "/{id}",
+    request: {
+      params: CustomerIdParamSchema,
+    },
+    responses: {
+      200: {
+        content: {
+          "application/json": {
+            schema: CustomerSchema,
+          },
+        },
+        description: "OK",
+      },
+      404: {
+        description: "Not Found",
+      },
+    },
+  }),
+  async (c) => {
+    const { id } = c.req.valid("param");
+    const customer = await prisma.customer.findUnique({
+      where: { customerId: id },
+    });
+
+    if (!customer) {
+      return c.notFound();
+    }
+    return c.json(customer, 200);
   }
 );
 
