@@ -1,5 +1,6 @@
-import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { createRoute, z } from "@hono/zod-openapi";
 import { prisma } from "../../utils/db";
+import { createApi } from "../base";
 
 // -----------------------------------
 // スキーマ定義
@@ -36,7 +37,7 @@ const CreateCustomerSchema = z
 // -----------------------------------
 // ルート定義
 // -----------------------------------
-const customerRoute = new OpenAPIHono();
+const customerRoute = createApi();
 
 // Customer作成
 customerRoute.openapi(

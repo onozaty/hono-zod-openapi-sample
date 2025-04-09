@@ -1,21 +1,39 @@
-import { swaggerUI } from "@hono/swagger-ui";
-import { OpenAPIHono } from "@hono/zod-openapi";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+import { createApi, ValidationError } from "./base";
+import type { ErrorResponse } from "./error-schema";
 import { customerRoute } from "./routes/customer";
+import { productRoute } from "./routes/product";
 
-const api = new OpenAPIHono();
+const api = createApi();
+
 api.route("/customers", customerRoute);
-api.doc("/doc", {
-  openapi: "3.0.0",
-  info: {
-    version: "1.0.0",
-    title: "My API",
-  },
-  servers: [
-    {
-      url: "/api",
-    },
-  ],
+
+api.onError((error, c) => {
+  const res = handleError(error);
+  return c.json(res.body, res.status);
 });
-api.get("/swagger-ui", swaggerUI({ url: "./doc" }));
+
+const handleError = (
+  error: unknown
+): { status: ContentfulStatusCode; body: ErrorResponse } => {
+  console.error(error);
+
+  if (error instanceof ValidationError) {
+    return {
+      status: 400,
+      body: {
+        message: "Validation Error",
+        errors: error.errors,
+      },
+    };
+  }
+
+  return {
+    status: 500,
+    body: {
+      message: "Unknown Error",
+    },
+  };
+};
 
 export { api };
