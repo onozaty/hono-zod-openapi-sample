@@ -5,7 +5,10 @@
     "dev": "tsx watch src/index.ts",
     "db:migrate": "prisma-schema-fixer && prisma migrate dev && prisma generate && npm run db:deploy",
     "db:reset": "prisma migrate reset",
-    "db:deploy": "prisma migrate deploy"
+    "db:deploy": "prisma migrate deploy",
+    "spec:yaml": "rm -rf dist/ && mkdir dist/ && tsx export-spec.ts yaml > dist/spec.yaml",
+    "spec:json": "rm -rf dist/ && mkdir dist/ && tsx export-spec.ts json > dist/spec.json",
+    "spec:redoc": "pnpm run spec:yaml && redocly build-docs dist/spec.yaml --output dist/spec.html"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
@@ -17,7 +20,10 @@
   "devDependencies": {
     "@onozaty/prisma-db-comments-generator": "^1.1.0",
     "@onozaty/prisma-schema-fixer": "^0.2.0",
+    "@redocly/cli": "^1.34.2",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.11.17",
+    "js-yaml": "^4.1.0",
     "prisma": "^6.5.0",
     "tsx": "^4.7.1"
   }
